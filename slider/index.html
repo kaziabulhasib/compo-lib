@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <section class="p-6">
+      <div class="container w-64 mx-auto">
+        <!-- card  -->
+        <div
+          class="flex flex-col gap-2 items-center w-full pb-4 rounded-md lg:h-full lg:p-8 bg-gray-50 text-gray-800">
+          <img
+            id="profile-image"
+            src="https://i.ibb.co/bvVmX90/cafe-image.jpg"
+            alt="Profile"
+            class="w-full h-36" />
+          <div class="flex flex-col gap-2 px-2 text-sm text-center">
+            <h3 id="date" class="font-medium text-xs">Food, 11 Jan, 2025</h3>
+            <h1 id="title" class="font-semibold text-sm">Today's Special</h1>
+            <p id="description" class="text-sm leading-[1.15rem]">
+              Chocolate Coffee: A perfect blend of rich cocoa and smooth coffee
+              for a decadent experience.
+            </p>
+          </div>
+
+          <div class="flex space-x-2">
+            <button
+              data-page="1"
+              class="w-2 h-2 rounded-full bg-gray-600"></button>
+            <button
+              data-page="2"
+              class="w-2 h-2 rounded-full bg-gray-400"></button>
+            <button
+              data-page="3"
+              class="w-2 h-2 rounded-full bg-gray-400"></button>
+            <button
+              data-page="4"
+              class="w-2 h-2 rounded-full bg-gray-400"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const buttons = document.querySelectorAll("button");
+      const data = {
+        1: {
+          image: "https://i.ibb.co/bvVmX90/cafe-image.jpg",
+          date: "Food, 11 Jan, 2025",
+          title: "Today's Special",
+          description:
+            "Chocolate Coffee: A perfect blend of rich cocoa and smooth coffee for a decadent experience.",
+        },
+        2: {
+          image: "https://i.ibb.co/CHvLCJb/desert.jpg",
+          date: "Food, 12 Jan, 2025",
+          title: "Chef's Recommendation",
+          description:
+            "Vanilla Latte: A creamy and aromatic delight, topped with a hint of vanilla.",
+        },
+        3: {
+          image: "https://i.ibb.co/bvVmX90/cafe-image.jpg",
+          date: "Food, 13 Jan, 2025",
+          title: "Bestseller",
+          description:
+            "Espresso Shot: Pure energy in a cup, for the ultimate coffee experience.",
+        },
+        4: {
+          image: "https://i.ibb.co/CHvLCJb/desert.jpg",
+          date: "Food, 14 Jan, 2025",
+          title: "Limited Edition",
+          description:
+            "Pumpkin Spice Latte: A cozy seasonal treat with warm spices and sweet notes.",
+        },
+      };
+
+      let currentPage = 1;
+      let interval;
+
+      // Function to update slide content
+      const updateSlide = (page) => {
+        document.getElementById("profile-image").src = data[page].image;
+        document.getElementById("date").textContent = data[page].date;
+        document.getElementById("title").textContent = data[page].title;
+        document.getElementById("description").textContent =
+          data[page].description;
+
+        buttons.forEach((btn) => {
+          btn.classList.remove("bg-gray-600");
+          btn.classList.add("bg-gray-400");
+        });
+        buttons[page - 1].classList.remove("bg-gray-400");
+        buttons[page - 1].classList.add("bg-gray-600");
+      };
+
+      // Auto-scroll functionality
+      const startAutoScroll = () => {
+        interval = setInterval(() => {
+          currentPage = (currentPage % 4) + 1; // Cycle through pages 1 to 4
+          updateSlide(currentPage);
+        }, 5000); // Change slide every  seconds
+      };
+
+      // Stop auto-scroll on button click
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          clearInterval(interval); // Stop auto-scrolling
+          currentPage = parseInt(button.getAttribute("data-page")); // Update current page
+          updateSlide(currentPage);
+          startAutoScroll(); // Restart auto-scroll
+        });
+      });
+
+      // Start auto-scrolling on page load
+      startAutoScroll();
+    </script>
+  </body>
+</html>
